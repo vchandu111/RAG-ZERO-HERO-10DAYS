@@ -5,11 +5,13 @@
 Congratulations! You've reached the final day. Today, you'll build and deploy a complete RAG application that others can use. You'll create a web interface and API so your RAG system is accessible and production-ready.
 
 **What you'll build:**
+
 - **FastAPI Backend**: REST API for your RAG system
 - **Streamlit Frontend**: User-friendly web interface
 - **Deployment**: Make it accessible to others
 
 **Why this matters:**
+
 - Real applications need interfaces
 - APIs allow integration with other systems
 - Web interfaces make systems accessible
@@ -17,6 +19,7 @@ Congratulations! You've reached the final day. Today, you'll build and deploy a 
 
 **Real-world context:**
 Your RAG system is powerful, but it's just code. To make it useful, you need:
+
 - A way for users to interact (web UI)
 - A way for other systems to use it (API)
 - A way to access it from anywhere (deployment)
@@ -29,18 +32,21 @@ Your RAG system is powerful, but it's just code. To make it useful, you need:
 
 **What is FastAPI?**
 A modern Python web framework for building APIs:
+
 - Fast and performant
 - Automatic API documentation
 - Type hints support
 - Easy to use
 
 **Why FastAPI for RAG?**
+
 - Handles async operations well
 - Great for ML/AI applications
 - Automatic validation
 - Easy to deploy
 
 **Key Components:**
+
 - **Routes**: API endpoints
 - **Models**: Request/response schemas
 - **Dependencies**: Reusable components
@@ -50,18 +56,21 @@ A modern Python web framework for building APIs:
 
 **What is Streamlit?**
 A Python framework for building web apps:
+
 - Simple and intuitive
 - Great for data/ML apps
 - No frontend knowledge needed
 - Fast development
 
 **Why Streamlit for RAG?**
+
 - Perfect for interactive AI apps
 - Easy to add file uploads
 - Simple chat interfaces
 - Quick prototyping
 
 **Key Components:**
+
 - **Widgets**: Inputs, buttons, displays
 - **Layout**: Organize your UI
 - **State**: Manage app state
@@ -70,6 +79,7 @@ A Python framework for building web apps:
 ### 2.3 Application Architecture
 
 **Complete System:**
+
 ```
 ┌─────────────┐
 │  Streamlit  │  User Interface
@@ -91,6 +101,7 @@ A Python framework for building web apps:
 ### 2.4 API Design
 
 **Essential Endpoints:**
+
 - `POST /index` - Index documents
 - `POST /query` - Query RAG system
 - `GET /health` - Health check
@@ -98,6 +109,7 @@ A Python framework for building web apps:
 - `DELETE /documents/{id}` - Remove document
 
 **Request/Response Models:**
+
 - Structured data
 - Validation
 - Type safety
@@ -106,17 +118,20 @@ A Python framework for building web apps:
 ### 2.5 Deployment Options
 
 **Local Deployment:**
+
 - Run on your machine
 - Access via localhost
 - Good for testing
 
 **Cloud Deployment:**
+
 - **Heroku**: Easy, free tier
 - **Railway**: Simple deployment
 - **Render**: Free hosting
 - **AWS/GCP/Azure**: Production scale
 
 **Containerization:**
+
 - Docker for packaging
 - Easy deployment
 - Consistent environment
@@ -170,17 +185,17 @@ async def index_document(file: UploadFile = File(...)):
         # Save uploaded file
         file_path = f"temp/{file.filename}"
         os.makedirs("temp", exist_ok=True)
-        
+
         with open(file_path, "wb") as f:
             content = await file.read()
             f.write(content)
-        
+
         # Index document
         chunks = rag.index_document(file_path)
-        
+
         # Clean up
         os.remove(file_path)
-        
+
         return IndexResponse(
             message=f"Document indexed successfully",
             chunks_indexed=chunks
@@ -193,11 +208,11 @@ async def query_rag(request: QueryRequest):
     """Query the RAG system"""
     import time
     start_time = time.time()
-    
+
     try:
         result = rag.query(request.question, k=request.k)
         processing_time = time.time() - start_time
-        
+
         return QueryResponse(
             answer=result["answer"],
             sources=result["sources"],
@@ -241,14 +256,14 @@ st.markdown("Ask questions about your documents!")
 # Sidebar
 with st.sidebar:
     st.header("📄 Document Management")
-    
+
     # File upload
     uploaded_file = st.file_uploader(
         "Upload a document",
         type=["pdf", "txt"],
         help="Upload PDF or TXT files"
     )
-    
+
     if uploaded_file:
         if st.button("Index Document"):
             with st.spinner("Indexing document..."):
@@ -257,14 +272,14 @@ with st.sidebar:
                     f"{API_URL}/index",
                     files=files
                 )
-                
+
                 if response.status_code == 200:
                     result = response.json()
                     st.success(f"✅ {result['message']}")
                     st.info(f"Indexed {result['chunks_indexed']} chunks")
                 else:
                     st.error("Failed to index document")
-    
+
     # Statistics
     if st.button("View Statistics"):
         response = requests.get(f"{API_URL}/stats")
@@ -293,14 +308,14 @@ if st.button("Ask", type="primary") and question:
             f"{API_URL}/query",
             json={"question": question, "k": k}
         )
-        
+
         if response.status_code == 200:
             result = response.json()
-            
+
             # Display answer
             st.subheader("📝 Answer")
             st.write(result["answer"])
-            
+
             # Display sources
             st.subheader("📚 Sources")
             for i, source in enumerate(result["sources"], 1):
@@ -308,7 +323,7 @@ if st.button("Ask", type="primary") and question:
                     st.write(source.get("text", ""))
                     if "metadata" in source:
                         st.caption(f"Source: {source['metadata']}")
-            
+
             # Processing time
             st.caption(f"⏱️ Processed in {result['processing_time']:.2f} seconds")
         else:
@@ -371,42 +386,54 @@ services:
 ## 4. Student Practice Tasks
 
 ### Task 1: FastAPI Backend
+
 Build a FastAPI backend with:
+
 - Document indexing endpoint
 - Query endpoint
 - Health check
 - Statistics endpoint
 
 ### Task 2: Streamlit Frontend
+
 Create a Streamlit UI with:
+
 - File upload
 - Query interface
 - Answer display
 - Source display
 
 ### Task 3: Integration
+
 Connect Streamlit to FastAPI:
+
 - Make API calls
 - Handle errors
 - Display results
 - Add loading states
 
 ### Task 4: Error Handling
+
 Add comprehensive error handling:
+
 - API errors
 - File errors
 - Validation errors
 - User-friendly messages
 
 ### Task 5: Deployment
+
 Deploy your application:
+
 - Local deployment
 - Cloud deployment (choose one)
 - Docker containerization
 - Environment variables
 
 ### Task 6: Documentation
+
 Create documentation:
+
 - API documentation
 - User guide
 - Deployment instructions
@@ -442,6 +469,7 @@ Create documentation:
 **Congratulations on completing the 10-day RAG roadmap!** 🎊
 
 You now have:
+
 - ✅ Python foundations
 - ✅ LLM understanding
 - ✅ Prompt engineering skills
@@ -453,4 +481,3 @@ You now have:
 - ✅ Deployment skills
 
 **Keep building and learning!** 🚀
-
