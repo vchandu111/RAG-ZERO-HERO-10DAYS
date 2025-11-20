@@ -16,7 +16,7 @@ This roadmap takes you from Python fundamentals all the way to building and depl
 - Advanced RAG techniques
 - Deploying production-ready RAG applications
 
-## 🎯 How to Use This Repository
+## 🎯 How to Use This Repository:
 
 1. **Study Day-by-Day**: Follow the roadmap sequentially, starting with Day 1
 2. **Read the Notes**: Open each day's folder and read the `README.md` file thoroughly
@@ -24,14 +24,14 @@ This roadmap takes you from Python fundamentals all the way to building and depl
 4. **Practice Regularly**: Code along with the examples and complete all practice tasks
 5. **Build Projects**: Each day includes a mini-project to reinforce your learning
 
-### Recommended Study Schedule
+### Recommended Study Schedule:
 
 - **Time per day**: 2-4 hours
 - **Read notes**: 30-60 minutes
 - **Complete assignments**: 1-2 hours
 - **Mini project**: 30-60 minutes
 
-## 🛠️ Technical Requirements
+## 🛠️ Technical Requirements:
 
 ### Python Version
 - **Python 3.8 or higher** (Python 3.10+ recommended)
